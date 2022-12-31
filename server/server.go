@@ -40,23 +40,20 @@ func main() {
 }
 
 func startServer(server *Server) {
-
-	// Create a new grpc server
-	grpcServer := grpc.NewServer()
-
-	// Make the server listen at the given port (convert int port to string)
-	listener, err := net.Listen("tcp", ":"+strconv.Itoa(server.port))
+	grpcServer := grpc.NewServer()                                           // create a new grpc server
+	listen, err := net.Listen("tcp", "localhost:"+strconv.Itoa(server.port)) // creates the listener
 
 	if err != nil {
-		log.Fatalf("Could not create the server %v", err)
+		log.Fatalln("Could not start listener")
 	}
-	log.Printf("Started server at port: %d\n", server.port)
 
-	// Register the grpc server and serve its listener
+	log.Printf("Server started at port %v", server.port)
+
 	proto.RegisterTimeAskServer(grpcServer, server)
-	serveError := grpcServer.Serve(listener)
-	if serveError != nil {
-		log.Fatalf("Could not serve listener")
+	serverError := grpcServer.Serve(listen)
+
+	if serverError != nil {
+		log.Printf("Could not register server")
 	}
 }
 

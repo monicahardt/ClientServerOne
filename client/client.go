@@ -1,10 +1,11 @@
 package main
 
 import (
-	proto "ClientServerone/grpc"
+	proto "Clientserverone/grpc"
 	"bufio"
 	"context"
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -36,7 +37,7 @@ func main() {
 
 	// Create a client
 	client := &Client{
-		id: *serverPort,
+		id: *clientPort,
 	}
 
 	// Wait for the client (user) to ask for the time
@@ -54,6 +55,7 @@ func connectToServer() (proto.TimeAskClient, error) {
 		log.Fatalf("Could not connect to port %d", *serverPort)
 	} else {
 		log.Printf("Connected to the server at port %d\n", *serverPort)
+		fmt.Printf("Connected to the server at port %d\n", *serverPort)
 	}
 	return proto.NewTimeAskClient(conn), nil
 }
@@ -77,6 +79,7 @@ func waitForTimeRequest(client *Client) {
 			log.Printf(err.Error())
 		} else {
 			log.Printf("Server %s says the time is %s\n", timeReturnMessage.ServerName, timeReturnMessage.Time)
+			fmt.Printf("Server %s says the time is %s\n", timeReturnMessage.ServerName, timeReturnMessage.Time)
 		}
 	}
 }
