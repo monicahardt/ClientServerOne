@@ -67,7 +67,7 @@ func waitForTimeRequest(client *Client) {
 	// Wait for input in the client terminal
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
-		input := scanner.Text()
+		input := scanner.Text() //here it is any key pressed on the keyboard
 		log.Printf("Client asked for time with input: %s\n", input)
 
 		// Ask the server for the time
